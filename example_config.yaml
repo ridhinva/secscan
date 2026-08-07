@@ -1,0 +1,40 @@
+# Example Zero Trust config
+ztna:
+  provider: "cloudflare"
+  zone: "example.com"
+  policies:
+    - name: "admin-panel"
+      domain: "admin.example.com"
+      allowed_ips: ["10.0.0.0/8"]
+    - name: "api-gateway"
+      domain: "api.example.com"
+      allowed_ips: []
+
+device_posture:
+  provider: "crowdstrike"
+  api_client_id: "xxx"
+  api_client_secret: "xxx"
+  required_score: 80
+
+iap:
+  provider: "google"
+  project: "my-project"
+  backend_service: "my-backend"
+
+microsegmentation:
+  provider: "cilium"
+  policies:
+    - name: "frontend-to-backend"
+      from: "frontend"
+      to: "backend"
+      ports: [8080]
+
+continuous_verification:
+  enabled: true
+  interval: 300
+  risk_threshold: 0.7
+
+mtls:
+  enabled: true
+  provider: "istio"
+  mode: "STRICT"
